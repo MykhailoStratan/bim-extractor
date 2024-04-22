@@ -73,3 +73,8 @@ service.getItemVersions = async (projectId, itemId, token) => {
     const resp = await new APS.ItemsApi().getItemVersions(projectId, itemId, null, internalAuthClient, token);
     return resp.body.data;
 };
+
+service.getMetadata = async (urn, token) => {
+    const resp = await new APS.DerivativesApi().getMetadata(urn, {}, internalAuthClient, token);
+    return resp.body.data;
+}

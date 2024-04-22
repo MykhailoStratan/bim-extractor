@@ -20,6 +20,7 @@ body, html {
 
 #sidebar {
     width: 25%;
+    height: 75%;
     left: 0;
     top: 3em;
     bottom: 0;
@@ -28,9 +29,29 @@ body, html {
 
 #preview {
     width: 75%;
+    /* height: 75%; */
     right: 0;
     top: 3em;
     bottom: 0;
+}
+
+/* .adsk-viewing-viewer {
+    height: 75% !important;
+} */
+
+.canvas-wrap canvas{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 400px !important;
+    width: 700px !important;
+    border-radius: 5px;
+    resize: both !important;
+    box-shadow: 1px 3px 10px 0 rgba(0, 0, 0, 0.4);
+}
+
+.docking-panel {
+    resize: both !important;
 }
 
 #header > * {
@@ -39,6 +60,11 @@ body, html {
 }
 
 #login {
+    font-family: ArtifaktElement;
+    font-size: 1em;
+}
+
+#hubs-toggle {
     font-family: ArtifaktElement;
     font-size: 1em;
 }

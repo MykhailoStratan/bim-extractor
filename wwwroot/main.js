@@ -2,6 +2,22 @@ import { initViewer, loadModel } from './viewer.js';
 import { initTree } from './sidebar.js';
 
 const login = document.getElementById('login');
+const sidebarToggle = document.getElementById('hubs-toggle');
+const sidebar = document.getElementById('sidebar');
+const preview = document.getElementById('preview');
+
+sidebar.style.width = '25%';
+
+sidebarToggle.onclick = () => {
+    if (sidebar.style.width == '25%') {
+        sidebar.style.width = '0%';
+        preview.style.width = '100%';
+    } else {
+        sidebar.style.width = '25%';
+        preview.style.width = '75%';
+    }
+}
+
 try {
     const resp = await fetch('/api/auth/profile');
     if (resp.ok) {
@@ -19,6 +35,7 @@ try {
         }
         const viewer = await initViewer(document.getElementById('preview'));
         initTree('#tree', (id) => loadModel(viewer, window.btoa(id).replace(/=/g, '')));
+
     } else {
         login.innerText = 'Login';
         login.onclick = () => window.location.replace('/api/auth/login');

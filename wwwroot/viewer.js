@@ -1,4 +1,13 @@
 /// import * as Autodesk from "@types/forge-viewer";
+import './extensions/Logger/LoggerExtension.js';
+import './extensions/Summary/SummaryExtension.js';
+import './extensions/Histogram/HistogramExtension.js';
+import './extensions/Selection/SelectionExtension.js';
+import './extensions/Isolation/IsolationExtension.js';
+import './extensions/DataGrid/DataGridExtension.js';
+import './extensions/DownloadData/DownloadDataExtension.js';
+
+let viewer;
 
 async function getAccessToken(callback) {
     try {
@@ -17,23 +26,39 @@ export function initViewer(container) {
     return new Promise(function (resolve, reject) {
             Autodesk.Viewing.Initializer({ env: 'AutodeskProduction', getAccessToken }, function () {
             const config = {
-                extensions: ['Autodesk.DocumentBrowser']
+                extensions: [
+                    'Autodesk.DocumentBrowser',
+                    'LoggerExtension',
+                    'SummaryExtension',
+                    'HistogramExtension',
+                    'SelectionExtension',
+                    'IsolationExtension',
+                    'DataGridExtension',
+                    'DownloadDataExtension',]
             };
-            const viewer = new Autodesk.Viewing.GuiViewer3D(container, config);
+            viewer = new Autodesk.Viewing.GuiViewer3D(container, config);
             viewer.start();
             viewer.setTheme('light-theme');
+
+            viewer.setSelectionColor("green", Autodesk.Viewing.SelectionType.MIXED);
+            
             resolve(viewer);
         });
     });
 }
 
 export function loadModel(viewer, urn) {
+    Autodesk.Viewing.Document.load('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
+
     function onDocumentLoadSuccess(doc) {
-        viewer.loadDocumentNode(doc, doc.getRoot().getDefaultGeometry());
+        const node = doc.getRoot().getDefaultGeometry();
+        console.log('Loading viewable', node.data);
+        viewer.loadDocumentNode(doc, node);
     }
     function onDocumentLoadFailure(code, message) {
         alert('Could not load model. See console for more details.');
         console.error(message);
     }
-    Autodesk.Viewing.Document.load('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
 }
+
+
