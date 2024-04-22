@@ -9,20 +9,20 @@ export class DownloadDataPanel extends Autodesk.Viewing.UI.DockingPanel {
         this.extension = extension;
         this.container.style.left = (options.x || 0) + 'px';
         this.container.style.top = (options.y || 0) + 'px';
-        this.container.style.width = (options.width || 500) + 'px';
+        this.container.style.width = (options.width || 100) + '%';
         this.container.style.height = (options.height || 400) + 'px';
         this.container.style.resize = 'none';
     }
 
     initialize() {
-        // this.title = this.createTitleBar(this.titleLabel || this.container.id);
-        // this.initializeMoveHandlers(this.title);
-        // this.container.appendChild(this.title);
-        // this.content = document.createElement('div');
-        // this.content.style.height = '350px';
-        // this.content.style.backgroundColor = 'white';
-        // this.content.innerHTML = `<div class="datagrid-container" style="position: relative; height: 350px;"></div>`;
-        // this.container.appendChild(this.content);
+        this.title = this.createTitleBar(this.titleLabel || this.container.id);
+        this.initializeMoveHandlers(this.title);
+        this.container.appendChild(this.title);
+        this.content = document.createElement('div');
+        this.content.style.height = '350px';
+        this.content.style.backgroundColor = 'white';
+        this.content.innerHTML = `<div class="download-data-container" style="position: relative; height: 350px;"></div>`;
+        this.container.appendChild(this.content);
 
     }
 

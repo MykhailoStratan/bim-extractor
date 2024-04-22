@@ -5,16 +5,24 @@ const login = document.getElementById('login');
 const sidebarToggle = document.getElementById('hubs-toggle');
 const sidebar = document.getElementById('sidebar');
 const preview = document.getElementById('preview');
+const dashboard = document.getElementById('dashboard');
+
 
 sidebar.style.width = '25%';
 
 sidebarToggle.onclick = () => {
+    const panels = document.querySelectorAll('.docking-panel');
     if (sidebar.style.width == '25%') {
         sidebar.style.width = '0%';
-        preview.style.width = '100%';
+        dashboard.style.left = '0px';
+        dashboard.style.width = '50%';
+        console.log(panels)
+        panels.forEach(p => p.style.width = '45%');
     } else {
         sidebar.style.width = '25%';
-        preview.style.width = '75%';
+        dashboard.style.left = '25%';
+        dashboard.style.width = '25%';
+        panels.forEach(p => p.style.width = '100%');
     }
 }
 

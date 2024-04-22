@@ -20,7 +20,7 @@ body, html {
 
 #sidebar {
     width: 25%;
-    height: 75%;
+
     left: 0;
     top: 3em;
     bottom: 0;
@@ -28,11 +28,53 @@ body, html {
 }
 
 #preview {
-    width: 75%;
-    /* height: 75%; */
+    width: 50%;
+
     right: 0;
     top: 3em;
     bottom: 0;
+}
+
+#dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    width: 25%;
+    height: 90%;
+    left: 25%;
+    top: 3em;
+    bottom: 0;
+}
+
+.docking-panel {
+    padding: 10px;
+    resize: both !important;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.property-panel {
+    overflow-y: auto;
+}
+
+.treeview {
+    margin-top: 15px;
+}
+
+.expanded, .category {
+    margin-bottom: 15px;
+}
+
+.property lmvheader{
+    display: flex;
+}
+
+.property-name {
+    width: 30%;
+}
+
+.property-value {
+    width: 40%;
 }
 
 /* .adsk-viewing-viewer {
@@ -43,15 +85,11 @@ body, html {
     position: absolute;
     top: 0px;
     right: 0px;
-    height: 400px !important;
-    width: 700px !important;
+    /* height: 400px !important;
+    width: 700px !important; */
     border-radius: 5px;
     resize: both !important;
     box-shadow: 1px 3px 10px 0 rgba(0, 0, 0, 0.4);
-}
-
-.docking-panel {
-    resize: both !important;
 }
 
 #header > * {

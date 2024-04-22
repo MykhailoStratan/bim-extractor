@@ -28,6 +28,8 @@ export function initViewer(container) {
             const config = {
                 extensions: [
                     'Autodesk.DocumentBrowser',
+                    'Autodesk.VisualClusters',
+                    'Autodesk.AEC.LevelsExtension',
                     'LoggerExtension',
                     'SummaryExtension',
                     'HistogramExtension',

@@ -1,6 +1,7 @@
 export class SummaryPanel extends Autodesk.Viewing.UI.PropertyPanel {
     constructor(extension, id, title) {
-        super(extension.viewer.container, id, title);
+        const dashboardContainer = document.getElementById('dashboard');
+        super(dashboardContainer, id, title);
         this.extension = extension;
     }
 

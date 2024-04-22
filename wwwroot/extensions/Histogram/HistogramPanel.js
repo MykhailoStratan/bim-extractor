@@ -1,10 +1,11 @@
 export class HistogramPanel extends Autodesk.Viewing.UI.DockingPanel {
     constructor(extension, id, title, options) {
-        super(extension.viewer.container, id, title, options);
+        const dashboardContainer = document.getElementById('dashboard');
+        super(dashboardContainer, id, title, options);
         this.extension = extension;
         this.container.style.left = (options.x || 0) + 'px';
         this.container.style.top = (options.y || 0) + 'px';
-        this.container.style.width = (options.width || 500) + 'px';
+        this.container.style.width = (options.width || 100) + '%';
         this.container.style.height = (options.height || 400) + 'px';
         this.container.style.resize = 'none';
         this.chartType = options.chartType || 'bar'; // See https://www.chartjs.org/docs/latest for all the supported types of charts
@@ -28,6 +29,7 @@ export class HistogramPanel extends Autodesk.Viewing.UI.DockingPanel {
         `;
         this.select = this.content.querySelector('select.props');
         this.canvas = this.content.querySelector('canvas.chart');
+        console.log('container', this.container)
         this.container.appendChild(this.content);
     }
 
