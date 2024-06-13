@@ -54,6 +54,8 @@ export function loadModel(viewer, urn) {
 
     function onDocumentLoadSuccess(doc) {
         const node = doc.getRoot().getDefaultGeometry();
+        doc.downloadAecModelData();
+        console.log(doc)
         console.log('Loading viewable', node.data);
         viewer.loadDocumentNode(doc, node);
     }

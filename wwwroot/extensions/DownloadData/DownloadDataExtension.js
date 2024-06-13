@@ -11,6 +11,7 @@ class DownloadDataExtension extends BaseExtension {
     async load() {
         super.load();
         console.log('DownloadDataExtension loaded.');
+        
         return true;
     }
 
@@ -46,6 +47,8 @@ class DownloadDataExtension extends BaseExtension {
         if (this._panel && this._panel.isVisible()) {
             this.update();
         }
+        const aecData = this.viewer.model.getDocumentNode().getAecModelData()
+        console.log('Loading AEC Model Data', aecData);
     }
 
     async update() {

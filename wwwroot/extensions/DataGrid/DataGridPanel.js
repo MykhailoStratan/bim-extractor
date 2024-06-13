@@ -18,13 +18,27 @@ export const DATAGRID_CONFIG = {
         return { dbid, category, name, volume, level };
     },
     createCustomRow: (dbid, name, externalId, props, requiredProps) => {
+        let familyName = name.split(' [').shift();
+
         const result = {};
         for (const requiredProp of requiredProps) {
-            const reqPropValue = props.find(p => p.displayName.toLowerCase() === requiredProp.toLowerCase())?.displayValue;
+            let reqPropValue = props.find(p => {
+                if (requiredProp === 'Level') {
+                    return (p.displayName.toLowerCase().includes(requiredProp.toLowerCase()) ||  p.displayName.toLowerCase() === "base constraint")
+                        && p.displayCategory === 'Constraints';
+                }
+
+                return p.displayName.toLowerCase() === requiredProp.toLowerCase();
+            })?.displayValue;
+
+            if (typeof reqPropValue === 'number') {
+                reqPropValue = Math.abs(reqPropValue);
+            }
+
             result[requiredProp] = reqPropValue;
         }
 
-        return { dbid, externalId, name, ...result };
+        return { dbid, externalId, name, familyName, ...result };
     },
     extractProperties: (dbid, name, externalId, props) => {
         const result = {};

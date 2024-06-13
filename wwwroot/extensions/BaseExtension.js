@@ -53,6 +53,7 @@ export class BaseExtension extends Autodesk.Viewing.Extension {
         const dbids = await this.findLeafNodes(model);
         return new Promise(function (resolve, reject) {
             model.getBulkProperties(dbids, {}, function (results) {
+                console.log(results)
                 let propNames = new Set();
                 for (const result of results) {
                     for (const prop of result.properties) {
@@ -62,6 +63,18 @@ export class BaseExtension extends Autodesk.Viewing.Extension {
                 resolve(Array.from(propNames.values()));
             }, reject);
         })
+    }
+
+    async findCategories(model) {
+        const dbids = await this.findLeafNodes(model);
+        return new Promise(function (resolve, reject) {
+            model.getBulkProperties(dbids, {propFilter: ['Category']}, function (results) {
+                let categoryNames = new Set();
+                let categoryIds = new Set();
+
+                console.log('Categories development', results);
+            })
+        }) 
     }
 
     async findObjects(model) {
