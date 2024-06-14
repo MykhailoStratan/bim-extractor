@@ -17,8 +17,8 @@ export const DATAGRID_CONFIG = {
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
         return { dbid, category, name, volume, level };
     },
-    createCustomRow: (dbid, name, externalId, props, requiredProps) => {
-        let familyName = name.split(' [').shift();
+    createCustomRow: (customProps, props, requiredProps) => {
+        
 
         const result = {};
         for (const requiredProp of requiredProps) {
@@ -38,7 +38,7 @@ export const DATAGRID_CONFIG = {
             result[requiredProp] = reqPropValue;
         }
 
-        return { dbid, externalId, name, familyName, ...result };
+        return { ...customProps, ...result };
     },
     extractProperties: (dbid, name, externalId, props) => {
         const result = {};

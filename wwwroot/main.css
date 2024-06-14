@@ -154,3 +154,19 @@ body, html {
     background-image: url(https://raw.githubusercontent.com/primer/octicons/main/icons/clock-16.svg);
     background-size: cover;
 }
+
+#hubs-save-btn, #hubs-open-saved-btn {
+    color: grey;
+    background-color: rgb(205, 205, 205);
+    border: none;
+}
+
+#hubs-save-btn.active, #hubs-open-saved-btn.active {
+    color: rgb(0, 0, 0);
+    background-color: rgb(204, 196, 196);
+    border: 1px solid black;
+}
+
+#hubs-save-btn.active:hover, #hubs-open-saved-btn.active:hover {
+    background-color: rgb(122, 122, 122);
+}

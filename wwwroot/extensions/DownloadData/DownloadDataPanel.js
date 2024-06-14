@@ -69,7 +69,7 @@ export class DownloadDataPanel extends Autodesk.Viewing.UI.DockingPanel {
         model.getBulkProperties(dbids, {}, (results) => {
             const requiredProps = ['Volume', 'Level', 'Category', 'Area', 'CategoryId', 'parent', 'Type Name', 'Type Mark'];
             const gridDataAssets = results.reduce((total, resultItem) => {
-              const dataRow = DATAGRID_CONFIG.createCustomRow(resultItem.dbId, resultItem.name, resultItem.externalId, resultItem.properties, requiredProps);
+              const dataRow = DATAGRID_CONFIG.createCustomRow({dbId: resultItem.dbId, name: resultItem.name, externalId: resultItem.externalId, familyName: resultItem.name?.split(' [').shift() || ''}, resultItem.properties, requiredProps);
               if (resultItem.properties.find(p => p.displayName === 'Category')?.displayValue !== 'Revit Level') {
                 // console.log(resultItem.properties)
                 total.push(dataRow);
@@ -79,18 +79,33 @@ export class DownloadDataPanel extends Autodesk.Viewing.UI.DockingPanel {
             const firstRowAssets = this.getColumTitltes(['ID', 'ExternalId', 'Name', 'Family', ...requiredProps]);
             JSONToCSVConvertor([{...firstRowAssets}, ...gridDataAssets], 'assets'); 
 
-            const requiredLevelsProps = ['Level'];
+            const requiredLevelsProps1 = ['Level'];
+            const levelsData = [];
+
             const gridDataLevels = results.reduce((total, resultItem) => {
-              const dataRow = DATAGRID_CONFIG.createCustomRow(resultItem.dbId, resultItem.name, resultItem.externalId, resultItem.properties, requiredLevelsProps);
               if (resultItem.properties.find(p => p.displayName === 'Category')?.displayValue !== 'Revit Level') {
-                // console.log(resultItem.properties)
-                total.push(dataRow);
+                const dataRow1 = DATAGRID_CONFIG.createCustomRow({dbId: resultItem.dbId, levelId: null}, resultItem.properties, requiredLevelsProps1);
+                total.push(dataRow1);
+              } else {
+                const requiredLevelsProps2 = ['Name'];
+                const dataRow2 = DATAGRID_CONFIG.createCustomRow({dbId: resultItem.dbId}, resultItem.properties, requiredLevelsProps2);
+                levelsData.push(dataRow2);
               }
               return total;
             }, [])
 
-            const firstRowLevels = this.getColumTitltes(['ID','Name', ...requiredLevelsProps]);
-            JSONToCSVConvertor([{...firstRowLevels}, ...gridDataLevels], 'levels'); 
+            // const updatedGridDataLevels = gridDataLevels.map((row => row.levelId = levelsData.find(levelsDataRow => levelsDataRow.name === row.Level)?.dbId))
+            const updatedGridDataLevels = gridDataLevels.map((row => {
+              const levelId = levelsData.find(levelsDataRow => {
+                return levelsDataRow.Name===row.Level
+              })?.dbId;
+              return {...row, levelId};
+
+            }))
+            console.log(levelsData)
+
+            const firstRowLevels = this.getColumTitltes(['ID','levelId', ...requiredLevelsProps1]);
+            JSONToCSVConvertor([{...firstRowLevels}, ...updatedGridDataLevels], 'levels'); 
         }, (err) => {
             console.error(err);
         });

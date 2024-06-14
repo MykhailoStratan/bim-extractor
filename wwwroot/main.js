@@ -26,6 +26,11 @@ sidebarToggle.onclick = () => {
     }
 }
 
+let savedProjectId = localStorage.getItem("savedProjectId") || '';
+
+const saveProjectBtn = document.getElementById('hubs-save-btn');
+const openSavedProjectBtn = document.getElementById('hubs-open-saved-btn');
+
 try {
     const resp = await fetch('/api/auth/profile');
     if (resp.ok) {
@@ -42,7 +47,40 @@ try {
             };
         }
         const viewer = await initViewer(document.getElementById('preview'));
-        initTree('#tree', (id) => loadModel(viewer, window.btoa(id).replace(/=/g, '')));
+
+        if (savedProjectId) {
+            openSavedProjectBtn.classList.add('active');
+        
+            openSavedProjectBtn.onclick = async () => {
+
+                if (savedProjectId) {
+                    loadModel(viewer, savedProjectId);
+                }
+            }
+            
+        }
+
+        initTree('#tree', (id) => { 
+            loadModel(viewer, window.btoa(id).replace(/=/g, ''));
+
+            saveProjectBtn.classList.add('active');
+            openSavedProjectBtn.onclick = () => {
+
+                if (savedProjectId) {
+                    loadModel(viewer, savedProjectId);
+                }
+            }
+            console.log(window.btoa(id).replace(/=/g, ''));
+            saveProjectBtn.onclick = () => {
+                
+                localStorage.setItem("savedProjectId", window.btoa(id).replace(/=/g, ''));
+                savedProjectId = localStorage.getItem("savedProjectId") || '';
+                if (savedProjectId) {
+                    openSavedProjectBtn.classList.add('active');
+                }
+            }
+        });
+        
 
     } else {
         login.innerText = 'Login';
